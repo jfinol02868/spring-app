@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: Spring App
+
+server:
+  port: 2021
+
+logging:
+  level:
+    root: INFO
+
