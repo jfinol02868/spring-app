@@ -1,5 +1,8 @@
 package com.spring.app.spring.app.domain.entity;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -7,7 +10,9 @@ import java.util.Objects;
 public class User implements Serializable {
 
     private Integer id;
+    @Size(min = 3)
     private String name;
+    @Past
     private LocalDate birthDate;
 
     public User(){}

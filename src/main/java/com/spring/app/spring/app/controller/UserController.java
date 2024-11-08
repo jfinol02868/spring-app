@@ -3,6 +3,7 @@ package com.spring.app.spring.app.controller;
 import com.spring.app.spring.app.domain.entity.User;
 import com.spring.app.spring.app.domain.exception.UserNotFoundException;
 import com.spring.app.spring.app.repository.impl.UserDaoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
         User userSaved = userDaoService.save(user);
         //Esta respuesta la devuelve en el header
         URI location = ServletUriComponentsBuilder
@@ -49,6 +50,9 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable Integer id) {
+        User user = userDaoService.findOne(id);
+        if(Objects.isNull(user))
+            throw new UserNotFoundException("Usuario con ID: " +id+ " no existe.", HttpStatus.NOT_FOUND);
         userDaoService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

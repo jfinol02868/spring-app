@@ -4,37 +4,26 @@ import java.time.LocalDateTime;
 
 public class ErrorDetails {
 
-    private LocalDateTime now;
+    private LocalDateTime timestamp;
     private String message;
-    private String description;
+    private String details;
 
-    public ErrorDetails(LocalDateTime now, String message, String description) {
-        this.now = now;
+    public ErrorDetails(LocalDateTime timestamp, String message, String details) {
+        super();
+        this.timestamp = timestamp;
         this.message = message;
-        this.description = description;
+        this.details = details;
     }
 
-    public LocalDateTime getNow() {
-        return now;
-    }
-
-    public void setNow(LocalDateTime now) {
-        this.now = now;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public String getDetails() {
+        return details;
     }
 }
