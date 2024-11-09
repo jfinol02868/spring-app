@@ -1,8 +1,13 @@
 spring:
   application:
     name: Spring App
+  # Archivos de internacionalizacion
   messages:
     basename: messages
+  # Base de datos en memoria
+  h2:
+    console:
+      enabled: true
 
 server:
   port: 2021
@@ -11,6 +16,7 @@ logging:
   level:
     root: INFO
 
+# Habilitando endpoints de actuators
 management:
   endpoints:
     web:

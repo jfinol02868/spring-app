@@ -1,6 +1,10 @@
 package com.spring.app.spring.app.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
@@ -8,14 +12,19 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity(name = "users")
 public class User implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @Size(min = 3)
-    @JsonProperty(value = "user_name")
+    @JsonProperty(value = "name")
     private String name;
+
     @Past
-    @JsonProperty(value = "birth_date")
+    @JsonProperty(value = "birthDate")
     private LocalDate birthDate;
 
     public User(){}

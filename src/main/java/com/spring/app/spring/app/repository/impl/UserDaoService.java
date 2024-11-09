@@ -1,6 +1,8 @@
 package com.spring.app.spring.app.repository.impl;
 
 import com.spring.app.spring.app.domain.entity.User;
+import com.spring.app.spring.app.domain.exception.UserNotFoundException;
+import com.spring.app.spring.app.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,33 +15,26 @@ import java.util.function.Predicate;
 @Component
 public class UserDaoService {
 
-    private static int userId = 0;
-    private static List<User> users = new ArrayList<>();
+    private final UserRepository userRepository;
     private static final Logger LOG = LoggerFactory.getLogger(UserDaoService.class);
 
-    static {
-        users.add(new User(userId++, "Jesus", LocalDate.now().minusYears(30)));
-        users.add(new User(userId++, "Jose", LocalDate.now().minusYears(20)));
-        users.add(new User(userId++, "Juan", LocalDate.now().minusYears(27)));
+    public UserDaoService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<User> findAll() {
-        return users;
+        return userRepository.findAll();
     }
 
     public User save(User user){
-        user.setId(userId ++);
-        users.add(user);
-        return new User(user.getId(), user.getName(), user.getBirthDate());
+        return userRepository.save(user);
     }
 
     public User findOne(Integer id) {
-        Predicate<? super User> predicate = user -> user.getId().equals(id);
-        return users.stream().filter(predicate).findFirst().orElse(null);
+        return userRepository.findById(id).orElseThrow(() ->new UserNotFoundException("El usuario que esta buscando no existe."));
     }
 
     public void deleteById(Integer id) {
-        Predicate<? super User> predicate = user -> user.getId().equals(id);
-        users.removeIf(predicate);
+        userRepository.findById(id);
     }
 }
