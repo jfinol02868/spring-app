@@ -11,5 +11,12 @@ logging:
   level:
     root: INFO
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 # http://localhost:2021/swagger-ui/index.html
+# http://localhost:2021/explorer/index.html#
 
