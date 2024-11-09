@@ -4,6 +4,8 @@ import com.spring.app.spring.app.domain.entity.User;
 import com.spring.app.spring.app.domain.exception.UserNotFoundException;
 import com.spring.app.spring.app.repository.impl.UserDaoService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/api")
@@ -30,11 +34,17 @@ public class UserController {
     }
 
     @GetMapping(value = "/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+    public ResponseEntity<EntityModel<User>> getUserById(@PathVariable Integer id) {
         User user = userDaoService.findOne(id);
         if(Objects.isNull(user))
             throw new UserNotFoundException("Usuario con ID: " +id+ " no existe.", HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+
+        //Recuperar la url del metodo "findAll()" para mostrarla en la respuesta de la llamada
+        EntityModel<User> entityModel = EntityModel.of(user);
+        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).findAll());
+        entityModel.add(link.withRel("all-users"));
+
+        return new ResponseEntity<>(entityModel, HttpStatus.OK);
     }
 
     @PostMapping("/users")
