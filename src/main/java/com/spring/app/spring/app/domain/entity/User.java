@@ -1,5 +1,6 @@
 package com.spring.app.spring.app.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
@@ -11,8 +12,10 @@ public class User implements Serializable {
 
     private Integer id;
     @Size(min = 3)
+    @JsonProperty(value = "user_name")
     private String name;
     @Past
+    @JsonProperty(value = "birth_date")
     private LocalDate birthDate;
 
     public User(){}
