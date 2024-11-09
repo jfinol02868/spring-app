@@ -23,12 +23,13 @@ public class UserController {
         this.userDaoService = userDaoService;
     }
 
-    @GetMapping("/users")
+    @GetMapping(
+            value = "/users")
     public ResponseEntity<List<User>> findAll(){
         return new ResponseEntity<>(userDaoService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping(value = "/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         User user = userDaoService.findOne(id);
         if(Objects.isNull(user))
